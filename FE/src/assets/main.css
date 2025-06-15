@@ -1,0 +1,36 @@
+@import './base.css';
+@import './variables.css';
+@import './components.css';
+@import './layout.css';
+@import './utilities.css';
+@import './responsive.css';
+
+#app {
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-primary);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
