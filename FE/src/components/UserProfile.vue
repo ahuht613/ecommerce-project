@@ -278,7 +278,7 @@ async function updateProfile() {
     Object.assign(profile.value, response.data)
     emit('update', profile.value)
 
-    showToast('Cập nhật thông tin thành công!', 'success')
+    // Thông báo sẽ được hiển thị từ App.vue
   } catch (error) {
     console.error('Error updating profile:', error)
     showToast(error.response?.data?.message || 'Lỗi khi cập nhật thông tin', 'error')

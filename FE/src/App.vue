@@ -23,8 +23,6 @@
             @update-quantity="updateCartQuantity"
             @checkout="showCheckout = true"
             @update="updateProfile"
-            @cancel-order="cancelOrder"
-            @reorder="reorderItems"
           />
         </transition>
       </main>
@@ -261,31 +259,6 @@ function updateProfile(updatedProfile) {
   user.value = { ...user.value, ...updatedProfile }
   localStorage.setItem('customer_user', JSON.stringify(user.value))
   showToast('Thông tin cá nhân đã được cập nhật!', 'success')
-}
-
-function cancelOrder() {
-  // TODO: Implement cancel order API
-  showToast('Chức năng hủy đơn hàng đang được phát triển', 'warning')
-}
-
-function reorderItems(order) {
-  // Add order items back to cart
-  if (order.items && order.items.length > 0) {
-    order.items.forEach(item => {
-      const existingItem = cart.value.find(i => i.id === item.product_id)
-      if (existingItem) {
-        existingItem.quantity += item.quantity
-      } else {
-        cart.value.push({
-          id: item.product_id,
-          name: item.product_name || item.name,
-          price: item.price,
-          quantity: item.quantity
-        })
-      }
-    })
-    showToast('Đã thêm sản phẩm vào giỏ hàng')
-  }
 }
 
 // Check for existing session on mount

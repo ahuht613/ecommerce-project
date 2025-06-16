@@ -161,13 +161,6 @@
         <button @click="$emit('close')" class="btn btn-secondary">
           Đóng
         </button>
-        <button 
-          v-if="canCancelOrder(order.status)"
-          @click="$emit('request-cancel')"
-          class="btn btn-outline"
-        >
-          Yêu cầu hủy đơn
-        </button>
       </div>
     </div>
   </div>
@@ -179,7 +172,7 @@ import { formatPrice, formatDate, formatPhone, formatOrderStatus, getStatusColor
 import axios from 'axios'
 
 const props = defineProps(['order'])
-const emit = defineEmits(['close', 'request-cancel'])
+const emit = defineEmits(['close'])
 
 const orderItems = ref([])
 const loading = ref(false)
@@ -233,10 +226,6 @@ function getPaymentMethodText(method) {
     'card': 'Thẻ tín dụng'
   }
   return methods[method] || 'Chưa xác định'
-}
-
-function canCancelOrder(status) {
-  return ['pending', 'confirmed'].includes(status)
 }
 
 async function loadOrderItems() {

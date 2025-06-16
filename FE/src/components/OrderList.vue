@@ -85,22 +85,6 @@
           <div class="order-footer">
             <div class="order-actions">
               <button
-                v-if="canCancelOrder(order.status)"
-                @click="showCancelModal(order)"
-                class="btn btn-outline btn-sm"
-              >
-                Hủy đơn hàng
-              </button>
-
-              <button
-                v-if="canReorder(order.status)"
-                @click="reorder(order)"
-                class="btn btn-secondary btn-sm"
-              >
-                Đặt lại
-              </button>
-
-              <button
                 @click="showDetailsModal(order)"
                 class="btn btn-primary btn-sm"
               >
@@ -112,20 +96,11 @@
       </div>
     </div>
 
-    <!-- Cancel Order Modal -->
-    <CancelOrderModal
-      v-if="showCancelOrderModal && selectedOrder"
-      :order="selectedOrder"
-      @close="closeCancelModal"
-      @cancel-order="handleCancelOrder"
-    />
-
     <!-- Order Details Modal -->
     <OrderDetailsModal
       v-if="showOrderDetailsModal && selectedOrder"
       :order="selectedOrder"
       @close="closeDetailsModal"
-      @request-cancel="showCancelFromDetails"
     />
   </div>
 </template>
@@ -133,13 +108,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { formatPrice, formatDate, formatPhone, formatOrderStatus, getStatusColor } from '../utils/formatters.js'
-import CancelOrderModal from './CancelOrderModal.vue'
 import OrderDetailsModal from './OrderDetailsModal.vue'
 
 const props = defineProps(['orders'])
-const emit = defineEmits(['cancel-order', 'reorder'])
 
-const showCancelOrderModal = ref(false)
 const showOrderDetailsModal = ref(false)
 const selectedOrder = ref(null)
 
@@ -157,28 +129,6 @@ function getPaymentMethodText(method) {
   return methods[method] || 'Chưa xác định'
 }
 
-function canCancelOrder(status) {
-  return ['pending', 'confirmed'].includes(status)
-}
-
-function canReorder(status) {
-  return ['delivered', 'completed', 'cancelled'].includes(status)
-}
-
-function showCancelModal(order) {
-  selectedOrder.value = order
-  showCancelOrderModal.value = true
-}
-
-function closeCancelModal() {
-  showCancelOrderModal.value = false
-  selectedOrder.value = null
-}
-
-function handleCancelOrder(cancelData) {
-  emit('cancel-order', cancelData)
-}
-
 function showDetailsModal(order) {
   selectedOrder.value = order
   showOrderDetailsModal.value = true
@@ -187,15 +137,6 @@ function showDetailsModal(order) {
 function closeDetailsModal() {
   showOrderDetailsModal.value = false
   selectedOrder.value = null
-}
-
-function showCancelFromDetails() {
-  showOrderDetailsModal.value = false
-  showCancelOrderModal.value = true
-}
-
-function reorder(order) {
-  emit('reorder', order)
 }
 </script>
 
